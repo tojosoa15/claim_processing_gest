@@ -1,0 +1,10 @@
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /api
+api_claims_by_user:
+    path: /claims/by_user
+    methods: GET
+    defaults:
+        _controller: App\Controller\GetClaimsByUserController::__invoke
+        _api_resource_class: App\Dto\GetClaimsByUserInput
