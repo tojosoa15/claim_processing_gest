@@ -1,56 +1,94 @@
 <?php
 namespace App\Controller;
 
-use App\Dto\GetClaimsByUserInput;
+use App\Repository\UsersRepository;
 use Doctrine\DBAL\Connection;
-use ApiPlatform\Metadata\Get;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Get(
-    name: 'get_claims_by_user',
-    uriTemplate: '/api/claims/by_user/{email}',  // Notez le /api/ prefix
-    input: GetClaimsByUserInput::class
-)]
+#[AsController]
 class GetClaimsByUserController extends AbstractController
 {
     public function __construct(private Connection $connection) {}
 
-    public function __invoke(GetClaimsByUserInput $input): JsonResponse
+    public function __invoke(Request $request, UsersRepository $usersStory)
     {
-        // $sql = "EXEC [dbo].[GetClaimsByUser] 
-        //     @email = :email,
-        //     @received_date = :received_date,
-        //     @number = :number,
-        //     @name = :name,
-        //     @registration_number = :registration_number,
-        //     @agein = :agein,
-        //     @phone = :phone,
-        //     @status = :status";
-        $sql = "EXEC [dbo].[GetClaimsByUser] 
-                @email = :email";
+        $query = $request->query->all();
 
-        // try {
-            $stmt = $this->connection->prepare($sql);
-            
-            // Bind des paramètres
-            $stmt->bindValue('email', $input->email);
-            // $stmt->bindValue('received_date', $input->received_date ?? 'false');
-            // $stmt->bindValue('number', $input->number);
-            // $stmt->bindValue('name', $input->name);
-            // $stmt->bindValue('registration_number', $input->registration_number);
-            // $stmt->bindValue('agein', $input->agein ?? 'false');
-            // $stmt->bindValue('phone', $input->phone);
-            // $stmt->bindValue('status', $input->status);
+        if (empty($query['email'])) {
+            return new JsonResponse(
+                ['error' => 'Email parameter is required'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-            $results = $stmt->executeQuery()->fetchAllAssociative();
+        // Préparation des paramètres avec des valeurs par défaut
+        $params = [
+            'email' => $query['email'],
+            'f_status' => $query['f_status'] ?? null,
+            'search_name' => $query['search_name'] ?? null,
+            'sort_by' => $query['sort_by'] ?? 'date',
+            'page' => (int)($query['page'] ?? 1),
+            'page_size' => (int)($query['page_size'] ?? 10),
+            'search_num' => $query['search_num'] ?? null,
+            'search_reg_num' => $query['search_reg_num'] ?? null,
+            'search_phone' => $query['search_phone'] ?? null
+        ];
+
+        try {
+            // Solution alternative pour SQL Server
+            $sql = "EXEC [dbo].[GetListByUser] 
+                @email = ?,
+                @f_status = ?,
+                @search_name = ?,
+                @sort_by = ?,
+                @page = ?,
+                @page_size = ?,
+                @search_num = ?,
+                @search_reg_num = ?,
+                @search_phone = ?";
+
+            // Utilisation de executeQuery avec les paramètres dans l'ordre
+            $results = $this->connection->executeQuery($sql, [
+                $params['email'],
+                $params['f_status'],
+                $params['search_name'],
+                $params['sort_by'],
+                $params['page'],
+                $params['page_size'],
+                $params['search_num'],
+                $params['search_reg_num'],
+                $params['search_phone']
+            ], [
+                \PDO::PARAM_STR,
+                \PDO::PARAM_STR,
+                \PDO::PARAM_STR,
+                \PDO::PARAM_STR,
+                \PDO::PARAM_INT,
+                \PDO::PARAM_INT,
+                \PDO::PARAM_STR,
+                \PDO::PARAM_STR,
+                \PDO::PARAM_STR
+            ])->fetchOne();
             
-            return new JsonResponse($results);
-        // } catch (\Exception $e) {
-        //     return new JsonResponse(
-        //         ['error' => $e->getMessage()],
-        //         400
-        //     );
-        // }
+            $jsonData = json_decode($results, true);
+            return new JsonResponse(['status' => 'success', 'data' => $jsonData], JsonResponse::HTTP_OK);
+
+            // return new JsonResponse(
+            //     $results ?: ['message' => 'No claims found for this user'],
+            //     JsonResponse::HTTP_OK
+            // );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                // ['error' => 'Database error: ' . $e->getMessage()],
+                ['status' => 'error', 'error_message' => 'Database error: ' . $e->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+
+
+        }
     }
 }

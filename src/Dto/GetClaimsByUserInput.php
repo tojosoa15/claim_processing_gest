@@ -1,12 +1,13 @@
 <?php
-namespace App\Dto;
+namespace App\DTO;
 
 use ApiPlatform\Metadata\ApiProperty;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class GetClaimsByUserInput
 {
-    #[ApiProperty(required: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     public string $email;
     
     // #[ApiProperty(default: 'false')]
