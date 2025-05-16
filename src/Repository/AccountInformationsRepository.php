@@ -21,9 +21,32 @@ class AccountInformationsRepository extends ServiceEntityRepository
     //     return $user;
     // }
 
-    public function getAccountInformations() {
-        $query = $this->getEntityManager()
-        ->createQuery('SELECT e.id, e.businessName FROM App\Entity\AccountInformations e');
-        return $query->getResult();
+    public function getAccountInformations($param) {
+        $qb = $this->createQueryBuilder('ac')
+            ->select(
+                'IDENTITY(ac.users) as user_id',
+                'ac.businessName',
+                'ac.businessRegistrationNumber',
+                'ac.businessAddress',
+                'ac.city',
+                'ac.postalCode',
+                'ac.phoneNumber',
+                'ac.emailAddress',
+                'ac.website'
+            );
+
+        // Si c'est un ID (numérique)
+        if (is_numeric($param)) {
+            $qb->where('ac.id = :param');
+        } 
+        // Sinon, traite comme un email
+        else {
+            $qb->where('ac.emailAddress = :param');
+        }
+
+        return $qb
+            ->setParameter('param', $param)
+            ->getQuery()
+            ->getOneOrNullResult(); // Retourne null si non trouvé
     }
 }

@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Controller\GetUserAccountInformationsController;
 use Doctrine\ORM\Mapping as ORM;
 // use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,6 +27,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             normalizationContext: ['groups' => ['account:read']],
+        ),
+        new GetCollection(
+            uriTemplate: '/users/account_information',
+            parameters: ['id' => new QueryParameter(), 'email' => new QueryParameter()],
             controller: GetUserAccountInformationsController::class,
         ),
         new Post(

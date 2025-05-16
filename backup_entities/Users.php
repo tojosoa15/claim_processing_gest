@@ -7,9 +7,13 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\GetClaimsByUserController;
-use App\DTO\GetClaimsByUserInput;
+use App\Dto\GetClaimsByUserInput;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Parameter;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\QueryParameter;
+use ApiPlatform\OpenApi\OpenApi;
+// use ApiPlatform\OpenApi\OpenApi;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -35,22 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             uriTemplate: '/claims/by_user',
-            controller: GetClaimsByUserController::class,
-            // input: GetClaimsByUserInput::class,
-            // name: 'get_claims_by_user',
-            // openapiContext: [
-            //     'parameters' => [
-            //         [
-            //             'name' => 'email',
-            //             'in' => 'query',
-            //             'required' => true,
-            //             'schema' => [
-            //                 'type' => 'string',
-            //                 'format' => 'email'
-            //             ]
-            //         ]
-            //     ]
-            // ]
+            controller: GetClaimsByUserController::class
         )
     ]
 )]

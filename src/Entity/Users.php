@@ -8,11 +8,12 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\GetClaimsByUserController;
-use App\Controller\GetUserAccountInformationsController;
-use App\DTO\GetClaimsByUserInput;
+// use App\Controller\GetUserAccountInformationsController;
+// use App\Dto\GetClaimsByUserInput;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -46,6 +47,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(
             uriTemplate: '/claims/by_user',
+            parameters: ['page' => new QueryParameter(), 'email' => new QueryParameter()],
             controller: GetClaimsByUserController::class,
         )
     ]
