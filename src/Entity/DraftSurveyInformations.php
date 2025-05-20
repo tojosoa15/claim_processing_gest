@@ -128,7 +128,7 @@ class DraftSurveyInformations
      *   @ORM\JoinColumn(name="verifications_draft_id", referencedColumnName="id")
      * })
      */
-    private $verificationsDraft;
+    private ?VerificationsDraft $verificationsDraft;
 
     public function getId(): ?int
     {

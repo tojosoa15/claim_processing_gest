@@ -14,16 +14,30 @@ class UsersRepository extends ServiceEntityRepository
         parent::__construct($registry, Users::class);
     }
 
-    public function findWithAccountInfo(int $id) 
-    {
-        $user = $this->find($id);
-        dd($user->getAccountInformation()); // Vérifiez si l'objet est bien chargé
-        return $user;
-    }
+    // public function findWithAccountInfo(int $id) 
+    // {
+    //     $user = $this->find($id);
+    //     dd($user->getAccountInformation()); // Vérifiez si l'objet est bien chargé
+    //     return $user;
+    // }
 
-    public function getAccountInformations() {
-        $query = $this->getEntityManager()
-        ->createQuery('SELECT e.id, e.businessName FROM App\Entity\AccountInformations e');
-        return $query->getResult();
+    public function getListUsers($query) {
+        $qb = $this->createQueryBuilder('u')
+            ->select(
+                'u.id',
+                'ac.emailAddress',
+                'rl.id as role_id', 
+                'rl.roleName as role_name'
+            )
+            ->leftJoin('u.roles', 'rl')
+            ->leftJoin('u.accountInformation', 'ac');
+
+        if (isset($query['role'])) {
+            $qb->where('rl.roleCode = :role')
+                ->setParameter('role', $query['role']);
+        }
+        
+        return $qb->getQuery()
+                ->getResult();
     }
 }

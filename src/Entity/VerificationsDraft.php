@@ -2,6 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Claims;
+use App\Entity\Users;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
+use App\Controller\VerificationSurveyorController;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +16,16 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="verifications_draft", indexes={@ORM\Index(name="IDX_AFAC83B51EBA1364", columns={"surveyor_id"}), @ORM\Index(name="IDX_AFAC83B587B1A554", columns={"claims_id"})})
  * @ORM\Entity
  */
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            controller: VerificationSurveyorController::class,
+            normalizationContext: ['groups' => ['verification:read']],
+            denormalizationContext: ['groups' => ['verification:write']],
+            parameters: [ 'claim_number' => new QueryParameter()]
+        )
+    ]
+)]
 class VerificationsDraft
 {
     /**
@@ -50,7 +66,7 @@ class VerificationsDraft
      *   @ORM\JoinColumn(name="surveyor_id", referencedColumnName="id")
      * })
      */
-    private $surveyor;
+    private ?Users $surveyor = null;
 
     /**
      * @var \Claims
@@ -60,7 +76,23 @@ class VerificationsDraft
      *   @ORM\JoinColumn(name="claims_id", referencedColumnName="id")
      * })
      */
-    private $claims;
+    private ?Claims $claims=null;
+
+
+    /**
+     * @var DraftSurveyInformations|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\DraftSurveyInformations", mappedBy="verificationsDraft", cascade={"persist", "remove"})
+     */
+    private ?DraftSurveyInformations $draftSurveyInformations = null;
+
+
+    /**
+     * @var DraftEstimateOfRepairs|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\DraftEstimateOfRepairs", mappedBy="verificationsDraft", cascade={"persist", "remove"})
+     */
+    private ?DraftEstimateOfRepairs $draftEstimateOfRepairs = null;
 
     public function getId(): ?int
     {
@@ -127,5 +159,27 @@ class VerificationsDraft
         return $this;
     }
 
+    public function getDraftSurveyInformations(): ?DraftSurveyInformations
+    {
+        return $this->draftSurveyInformations;
+    }
 
+    public function setDraftSurveyInformations(?DraftSurveyInformations $draftSurveyInformations): static
+    {
+        $this->draftSurveyInformations = $draftSurveyInformations;
+
+        return $this;
+    }
+
+    public function getDraftEstimateOfRepairs(): ?DraftEstimateOfRepairs
+    {
+        return $this->draftEstimateOfRepairs;
+    }
+
+    public function setDraftEstimateOfRepairs(?DraftEstimateOfRepairs $draftEstimateOfRepairs): static
+    {
+        $this->draftEstimateOfRepairs = $draftEstimateOfRepairs;
+
+        return $this;
+    }
 }

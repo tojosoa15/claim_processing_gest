@@ -105,6 +105,13 @@ class DraftPartDetails
      */
     private $draftEstimateOfRepairs;
 
+    /**
+     * @var DraftLabourDetails|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\DraftLabourDetails", mappedBy="draftPartDetails", cascade={"persist", "remove"})
+     */
+    private ?DraftLabourDetails $draftLabourDetails = null;
+
     public function getId(): ?int
     {
         return $this->id;

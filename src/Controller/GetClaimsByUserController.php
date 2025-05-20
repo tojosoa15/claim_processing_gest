@@ -87,8 +87,6 @@ class GetClaimsByUserController extends AbstractController
                 ['status' => 'error', 'error_message' => 'Database error: ' . $e->getMessage()],
                 JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
-
-
         }
     }
 }

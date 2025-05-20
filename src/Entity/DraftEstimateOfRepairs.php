@@ -54,7 +54,7 @@ class DraftEstimateOfRepairs
      *   @ORM\JoinColumn(name="verifications_draft_id", referencedColumnName="id")
      * })
      */
-    private $verificationsDraft;
+    private ?VerificationsDraft $verificationsDraft = null; 
 
     /**
      * @var \DraftAdditionalLabourDetails
@@ -64,7 +64,21 @@ class DraftEstimateOfRepairs
      *   @ORM\JoinColumn(name="draft_additional_labour_details_id", referencedColumnName="id")
      * })
      */
-    private $draftAdditionalLabourDetails;
+    private ?DraftAdditionalLabourDetails $draftAdditionalLabourDetails = null;
+
+    /**
+     * @var DraftVehicleInformations|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\DraftVehicleInformations", mappedBy="draftEstimateOfRepairs", cascade={"persist", "remove"})
+     */
+    private ?DraftVehicleInformations $draftVehicleInformations = null;
+
+    /**
+     * @var DraftPartDetails|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\DraftPartDetails", mappedBy="draftEstimateOfRepairs", cascade={"persist", "remove"})
+     */
+    private ?DraftPartDetails $draftPartDetails = null;
 
     public function getId(): ?int
     {
@@ -131,5 +145,28 @@ class DraftEstimateOfRepairs
         return $this;
     }
 
+    public function getDraftEstimateOfRepairs(): ?DraftVehicleInformations
+    {
+        return $this->draftVehicleInformations;
+    }
+
+    public function setDraftEstimateOfRepairs(?DraftVehicleInformations $draftVehicleInformations): static
+    {
+        $this->draftVehicleInformations = $draftVehicleInformations;
+
+        return $this;
+    }
+    
+    public function getDraftPartDetails(): ?DraftPartDetails
+    {
+        return $this->draftPartDetails;
+    }
+
+    public function setDraftPartDetails(?DraftPartDetails $draftPartDetails): static
+    {
+        $this->draftPartDetails = $draftPartDetails;
+
+        return $this;
+    }
 
 }

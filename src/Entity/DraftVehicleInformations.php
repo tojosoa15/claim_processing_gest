@@ -135,7 +135,7 @@ class DraftVehicleInformations
      *   @ORM\JoinColumn(name="draft_estimate_of_repairs_id", referencedColumnName="id")
      * })
      */
-    private $draftEstimateOfRepairs;
+    private ?DraftEstimateOfRepairs $draftEstimateOfRepairs = null;
 
     public function getId(): ?int
     {

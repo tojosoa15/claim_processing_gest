@@ -12,8 +12,7 @@ use ApiPlatform\Metadata\QueryParameter;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\GetClaimsByUserController;
-// use App\Controller\GetUserAccountInformationsController;
-// use App\Dto\GetClaimsByUserInput;
+use App\Controller\GetListUtilisateurController;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -28,10 +27,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             normalizationContext: ['groups' => ['user:read']]
         ),
-        // new GetCollection(
-        //     uriTemplate: '/users/account_information',
-        //     controller: GetUserAccountInformationsController::class,
-        // ),
+        new GetCollection(
+            uriTemplate: '/list_users/with_roles',
+            controller: GetListUtilisateurController::class,
+            parameters: ['role' => new QueryParameter()],
+        ),
+        new GetCollection(
+            uriTemplate: '/list_claims/by_user',
+            controller: GetClaimsByUserController::class,
+            parameters: [ 'email' => new QueryParameter()],
+        ),
         new Post(
             denormalizationContext: ['groups' => ['user:write']],
             validationContext: ['groups' => ['user:write']]
@@ -41,15 +46,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Patch(),
         new Delete()
-    ]
-)]
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            uriTemplate: '/claims/by_user',
-            parameters: ['page' => new QueryParameter(), 'email' => new QueryParameter()],
-            controller: GetClaimsByUserController::class,
-        )
     ]
 )]
 #[ORM\Entity(repositoryClass: UsersRepository::class)]

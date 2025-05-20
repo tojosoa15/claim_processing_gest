@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Claims
@@ -42,6 +43,7 @@ class Claims
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups(['verification:read'])]
     private $id;
 
     /**
@@ -56,6 +58,7 @@ class Claims
      *
      * @ORM\Column(name="number", type="string", length=255, nullable=false)
      */
+    #[Groups(['verification:read'])]
     private $number;
 
     /**
