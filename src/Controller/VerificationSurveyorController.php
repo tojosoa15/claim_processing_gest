@@ -28,7 +28,7 @@ final class VerificationSurveyorController extends AbstractController
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
-        foreach ($summary as $key => $value) {
+        foreach ($summary as $value) {
             $date_time_of_survey = ($value['dateOfSurvey'] ? $value['dateOfSurvey']->format('d:M:y') : null) . '-' . ($value['timeOfSurvey'] ? $value['timeOfSurvey']->format('H:i:s') : null);
 
             $result = [
