@@ -19,17 +19,18 @@ final class VerificationSurveyorController extends AbstractController
     {
         $result = [];
         $query  = $request->query->all();
-
+        
         $summary = $verificationDraft->getSummaryInDraft($query);
 
         if (!$summary) {
             return new JsonResponse(
-                ['error' => 'Result not found'],
+                ['error' => 'Aucun résultat trouvé'],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
+
         foreach ($summary as $value) {
-            $date_time_of_survey = ($value['dateOfSurvey'] ? $value['dateOfSurvey']->format('d:M:y') : null) . '-' . ($value['timeOfSurvey'] ? $value['timeOfSurvey']->format('H:i:s') : null);
+            $date_time_of_survey = ($value['dateOfSurvey'] ? $value['dateOfSurvey']->format('d:M:y') : null);
 
             $result = [
                'claim_no' => $value['claim_number'],

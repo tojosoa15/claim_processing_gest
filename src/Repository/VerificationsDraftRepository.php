@@ -19,12 +19,11 @@ class VerificationsDraftRepository extends ServiceEntityRepository
             ->select(
                 'vd.id',
                 'cl.number AS claim_number',
-                'u.id AS user_id',
+                'su.id AS user_id',
                 'dsi.invoiceNumber',
                 'dsi.surveyType',
                 'dsi.eorValue',
                 'dsi.dateOfSurvey',
-                'dsi.timeOfSurvey',
                 'cl.name as name_customer',
                 'dvi.make',
                 'dvi.model',
@@ -41,7 +40,7 @@ class VerificationsDraftRepository extends ServiceEntityRepository
                 'vat_l.vatValue AS labour_vat',
                 'dld.labourTotal'
             )->leftJoin('vd.claims', 'cl')
-            ->leftJoin('vd.surveyor', 'u')
+            ->leftJoin('vd.surveyor', 'su')
             ->leftJoin('vd.draftSurveyInformations', 'dsi')
             ->leftJoin('vd.draftEstimateOfRepairs', 'deor')
             ->leftJoin('deor.draftVehicleInformations', 'dvi')
@@ -50,10 +49,14 @@ class VerificationsDraftRepository extends ServiceEntityRepository
             ->leftJoin('dpd.vats', 'vat_p')
             ->leftJoin('dld.vats', 'vat_l');
           
-        if (isset($query['claim_number'])) {
+        // return $query;
+        if (isset($query['claim_number']) && isset($query['surveyor_id'])) {
             $qb->where('cl.number = :claim_number')
-                ->setParameter('claim_number', $query['claim_number']);
+                ->setParameter('claim_number', $query['claim_number'])
+                ->andWhere('su.id = :surveyor_id')
+                ->setParameter('surveyor_id', intval($query['surveyor_id']));
         }
+        
         return  $qb->getQuery()->getResult();
     }
 }

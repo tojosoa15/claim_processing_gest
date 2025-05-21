@@ -19,10 +19,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     operations: [
         new GetCollection(
+            uriTemplate: '/surveyor_summary',
             controller: VerificationSurveyorController::class,
-            normalizationContext: ['groups' => ['verification:read']],
-            denormalizationContext: ['groups' => ['verification:write']],
-            parameters: [ 'claim_number' => new QueryParameter()]
+            parameters: [ 'claim_number' => new QueryParameter(), 'surveyor_id' => new QueryParameter()]
         )
     ]
 )]
@@ -76,6 +75,7 @@ class VerificationsDraft
      *   @ORM\JoinColumn(name="claims_id", referencedColumnName="id")
      * })
      */
+    // Le nom du champs est claims_id et il fait reference à l'id de l'entity claims
     private ?Claims $claims=null;
 
 
