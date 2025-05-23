@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => ['account:read']],
         ),
         new GetCollection(
-            uriTemplate: '/users/account_information',
+            uriTemplate: '/profile/users',
             parameters: ['id' => new QueryParameter(), 'email' => new QueryParameter()],
             controller: GetUserAccountInformationsController::class,
         ),
