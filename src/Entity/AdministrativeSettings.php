@@ -59,6 +59,21 @@ class AdministrativeSettings
      */
     private $users;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CommunicationMethods", inversedBy="administrativeSettings")
+     * @ORM\JoinTable(name="admin_settings_communications",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="admin_settings_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="method_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $communicationMethods = array();
+
     public function getId(): ?int
     {
         return $this->id;

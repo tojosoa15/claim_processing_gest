@@ -21,14 +21,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(
-            normalizationContext: ['groups' => ['account:read']],
+            normalizationContext: ['groups' => ['claim:read']],
         ),
         new Post(
-            denormalizationContext: ['groups' => ['account:write']],
-            validationContext: ['groups' => ['account:write']]
+            denormalizationContext: ['groups' => ['claim:write']],
+            validationContext: ['groups' => ['claim:write']]
         ),
         new Get(
-            normalizationContext: ['groups' => ['account:read']]
+            normalizationContext: ['groups' => ['claim:read']]
         ),
         new Patch(),
         new Delete()
@@ -43,7 +43,7 @@ class Claims
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    #[Groups(['verification:read'])]
+    #[Groups(['verification:read', 'claim:read'])]
     private $id;
 
     /**
@@ -51,6 +51,7 @@ class Claims
      *
      * @ORM\Column(name="received_date", type="date", nullable=false, options={"default"="CONVERT([date],getdate())"})
      */
+    #[Groups(['claim:read'])]
     private $receivedDate = 'CONVERT([date],getdate())';
 
     /**
@@ -58,7 +59,7 @@ class Claims
      *
      * @ORM\Column(name="number", type="string", length=255, nullable=false)
      */
-    #[Groups(['verification:read'])]
+    #[Groups(['verification:read', 'claim:read'])]
     private $number;
 
     /**
@@ -66,6 +67,7 @@ class Claims
      *
      * @ORM\Column(name="name", type="string", length=45, nullable=false)
      */
+    #[Groups(['claim:read'])]
     private $name;
 
     /**
@@ -73,6 +75,7 @@ class Claims
      *
      * @ORM\Column(name="registration_number", type="string", length=45, nullable=false)
      */
+    #[Groups(['claim:read'])]
     private $registrationNumber;
 
     /**
@@ -80,6 +83,7 @@ class Claims
      *
      * @ORM\Column(name="ageing", type="integer", nullable=false)
      */
+    #[Groups(['claim:read'])]
     private $ageing;
 
     /**
@@ -87,28 +91,33 @@ class Claims
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=false)
      */
+    #[Groups(['claim:read'])]
     private $phone;
 
     /**
-     * @var string|null
+     * @var \Status
      *
-     * @ORM\Column(name="status", type="string", length=45, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Status")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="status", referencedColumnName="id")
+     * })
      */
-    private $status;
+    #[Groups(['claim:read'])]
+    private ?Status $status = null;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdAt = 'CURRENT_TIMESTAMP';
+    private $createdAt = null;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $updatedAt = 'CURRENT_TIMESTAMP';
+    private $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -122,7 +131,7 @@ class Claims
 
     public function setReceivedDate(\DateTime $receivedDate): static
     {
-        $this->receivedDate = $receivedDate;
+        $this->receivedDate = $receivedDate;;
 
         return $this;
     }
@@ -187,12 +196,12 @@ class Claims
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?Status
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): static
+    public function setStatus(?Status $status): static
     {
         $this->status = $status;
 

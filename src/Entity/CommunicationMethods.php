@@ -50,6 +50,13 @@ class CommunicationMethods
      */
     private $updatedAt = 'CURRENT_TIMESTAMP';
 
+     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="AdministrativeSettings", mappedBy="communicationMethods")
+     */
+    private $administrativeSettings = array();
+
     public function getId(): ?int
     {
         return $this->id;

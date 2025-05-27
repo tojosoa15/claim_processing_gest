@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Status
@@ -34,6 +35,7 @@ class Status
      *
      * @ORM\Column(name="status_name", type="string", length=45, nullable=false)
      */
+    #[Groups(['claim:read'])]
     private $statusName;
 
     /**

@@ -13,6 +13,7 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\Collection;
 use App\Controller\GetClaimsByUserController;
 use App\Controller\GetListUtilisateurController;
+use App\Controller\GetProfilUserController;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -27,11 +28,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             normalizationContext: ['groups' => ['user:read']]
         ),
+        // Profile utilisateur
+         new GetCollection(
+            uriTemplate: '/profile/users',
+            parameters: ['userId' => new QueryParameter(), 'email' => new QueryParameter()],
+            controller: GetProfilUserController::class,
+        ),
+        // Liste utilisateur avec rôles
         new GetCollection(
             uriTemplate: '/list_users/with_roles',
             controller: GetListUtilisateurController::class,
             parameters: ['role' => new QueryParameter()],
         ),
+        // Liste claim d'un utilisateur
         new GetCollection(
             uriTemplate: '/list_claims/by_user',
             controller: GetClaimsByUserController::class,
@@ -95,13 +104,21 @@ class Users
     #[Groups(['user:read', 'user:write'])]
     private ?AccountInformations $accountInformation = null;
 
-     /**
+    /**
      * @var FinancialInformations|null
      *
      * @ORM\OneToOne(targetEntity="App\Entity\FinancialInformations", mappedBy="users", cascade={"persist", "remove"})
      */
     #[Groups(['user:read', 'user:write'])]
     private ?FinancialInformations $financialInformation = null;
+
+    /**
+     * @var AdministrativeSettings|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\AdministrativeSettings", mappedBy="users", cascade={"persist", "remove"})
+     */
+    #[Groups(['user:read', 'user:write'])]
+    private ?AdministrativeSettings $administrativeSettings = null;
 
     /**
      * Constructor

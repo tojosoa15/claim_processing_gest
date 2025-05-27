@@ -19,7 +19,7 @@ class AdminSettingsCommunications
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $userId;
+    private $adminSettings;
 
     /**
      * @var bool|null
@@ -40,9 +40,9 @@ class AdminSettingsCommunications
      */
     private $method;
 
-    public function getUserId(): ?int
+    public function getAdminSettings(): ?int
     {
-        return $this->userId;
+        return $this->adminSettings;
     }
 
     public function isActive(): ?bool

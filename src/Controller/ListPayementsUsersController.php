@@ -21,10 +21,17 @@ final class ListPayementsUsersController extends AbstractController
 
         $payements  = $payement->getListPayementUser($query);
 
-        // foreach ($payements as $payement) {
-        //     $payements['dateSubmitted'] =$payement['dateSubmitted']->format('Y-M-d');
-        //     $payements['payementDate'] =$payement['payementDate']->format('Y-M-d');
-        // }
+        foreach ($payements as $key => $paymt) {
+            $payements[$key] = [
+                'idPaiment'     => $paymt['id'] ?? null,
+                'dateSubmitted' => $paymt['dateSubmitted'] ? $paymt['dateSubmitted']->format('Y-M-d') : null,
+                'invoiceNum'    => $paymt['invoiceNum'] ?? null,
+                'claimNum'      => $paymt['claimNum'] ?? null,
+                'claimAmount'   => $paymt['claimAmount'] ?? null,
+                'payementDate'  => $paymt['payementDate'] ? $paymt['payementDate']->format('Y-M-d') : null,
+                'statusName'    => $paymt['statusName'] ?? null,
+            ];
+        }
 
         return new JsonResponse($payements);
     }

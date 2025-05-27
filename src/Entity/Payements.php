@@ -7,6 +7,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use App\Controller\ExportListPayementController;
 use App\Controller\ListPayementsUsersController;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,14 +22,30 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new GetCollection(
             uriTemplate: '/list_payement/users',
-            parameters: ['user_id' => new QueryParameter()],
+            parameters: [
+                'userId'        => new QueryParameter(),
+                'claimNo'       => new QueryParameter(),
+                'status'        => new QueryParameter(),
+                'invoiceNo'     => new QueryParameter(),
+                'dateSubmited'  => new QueryParameter(),
+                'payementDate'  => new QueryParameter(),
+            ],
             controller: ListPayementsUsersController::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/export_payement/users',
+            parameters: [
+                'userId'        => new QueryParameter(),
+                'claimNo'       => new QueryParameter(),
+                'status'        => new QueryParameter(),
+                'invoiceNo'     => new QueryParameter(),
+                'dateSubmited'  => new QueryParameter(),
+                'payementDate'  => new QueryParameter(),
+            ],
+            controller: ExportListPayementController::class,
         )
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: [
-    'claimNum' => 'exact'
-])]
 class Payements
 {
     /**

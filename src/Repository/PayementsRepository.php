@@ -42,11 +42,39 @@ class PayementsRepository extends ServiceEntityRepository
                 ->setParameter('user_id', intval($query['user_id']));
         }
 
-        // Filtre par numéro de claim
-        // if (isset($query['claim_number'])) {
-        //     $qb->andWhere('p.claimNum = :claim_number')
-        //         ->setParameter('claim_number', $query['claim_number']);
-        // }
+        // Recherche par numéro de claim
+        if (isset($query['claimNo'])) {
+            $qb->andWhere('p.claimNum = :claimNo')
+                ->setParameter('claimNo', $query['claimNo']);
+        }
+
+        // Filtre par status
+        if (isset($query['status'])) {
+            $qb->andWhere('st.statusCode = :status')
+                ->setParameter('status', $query['status']);
+        }
+
+        // Filtre par invoice number
+        if (isset($query['invoiceNo'])) {
+            $qb->andWhere('p.invoiceNum = :invoiceNo')
+                ->setParameter('invoiceNo', $query['invoiceNo']);
+        }
+
+        // Trier par date d'enregistrement
+        if (isset($query['dateSubmited']) && $query['dateSubmited'] == 'true') {
+            $qb->orderBy('p.dateSubmitted', 'DESC');
+        } else {
+            $qb->orderBy('p.dateSubmitted', 'ASC');
+        }
+
+
+        // Trier par date de paiement
+        if(isset($query['payementDate']) && $query['payementDate'] == 'true') {
+            $qb->orderBy('p.payementDate', 'DESC');
+        } else {
+            $qb->orderBy('p.payementDate', 'ASC');
+        }
+
         
         return $qb->getQuery()
                 ->getResult();

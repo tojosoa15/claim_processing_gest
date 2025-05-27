@@ -10,7 +10,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\QueryParameter;
-use App\Controller\GetUserAccountInformationsController;
 use Doctrine\ORM\Mapping as ORM;
 // use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -23,27 +22,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="account_informations", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_account_informations_users_id", columns={"users_id"}), @ORM\UniqueConstraint(name="UQ_account_informations_email_address", columns={"email_address"})})
  * @ORM\Entity
  */
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => ['account:read']],
-        ),
-        new GetCollection(
-            uriTemplate: '/profile/users',
-            parameters: ['id' => new QueryParameter(), 'email' => new QueryParameter()],
-            controller: GetUserAccountInformationsController::class,
-        ),
-        new Post(
-            denormalizationContext: ['groups' => ['account:write']],
-            validationContext: ['groups' => ['account:write']]
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['account:read']]
-        ),
-        new Patch(),
-        new Delete()
-    ]
-)]
+// #[ApiResource(
+//     operations: [
+//         new GetCollection(
+//             normalizationContext: ['groups' => ['account:read']],
+//         ),
+//         new GetCollection(
+//             uriTemplate: '/profile/users',
+//             parameters: ['id' => new QueryParameter(), 'email' => new QueryParameter()],
+//             controller: GetUserAccountInformationsController::class,
+//         ),
+//         new Post(
+//             denormalizationContext: ['groups' => ['account:write']],
+//             validationContext: ['groups' => ['account:write']]
+//         ),
+//         new Get(
+//             normalizationContext: ['groups' => ['account:read']]
+//         ),
+//         new Patch(),
+//         new Delete()
+//     ]
+// )]
 class AccountInformations
 {
     /**
