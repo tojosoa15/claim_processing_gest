@@ -25,9 +25,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => ['user:read']]
-        ),
+        // new GetCollection(
+        //     normalizationContext: ['groups' => ['user:read']]
+        // ),
         // Profile utilisateur
          new GetCollection(
             uriTemplate: '/profile/users',
@@ -46,15 +46,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
             controller: GetClaimsByUserController::class,
             parameters: [ 'email' => new QueryParameter()],
         ),
-        new Post(
-            denormalizationContext: ['groups' => ['user:write']],
-            validationContext: ['groups' => ['user:write']]
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['user:read']]
-        ),
-        new Patch(),
-        new Delete()
+        // new Post(
+        //     denormalizationContext: ['groups' => ['user:write']],
+        //     validationContext: ['groups' => ['user:write']]
+        // ),
+        // new Get(
+        //     normalizationContext: ['groups' => ['user:read']]
+        // ),
+        // new Patch(),
+        // new Delete()
     ]
 )]
 #[ORM\Entity(repositoryClass: UsersRepository::class)]

@@ -35,12 +35,15 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(
             uriTemplate: '/export_payement/users',
             parameters: [
-                'userId'        => new QueryParameter(),
-                'claimNo'       => new QueryParameter(),
-                'status'        => new QueryParameter(),
-                'invoiceNo'     => new QueryParameter(),
-                'dateSubmited'  => new QueryParameter(),
-                'payementDate'  => new QueryParameter(),
+                'userId'            => new QueryParameter(),
+                'typeExport'        => new QueryParameter(),
+                'startDateSubmited' => new QueryParameter(),
+                'endDateSubmited'   => new QueryParameter(),
+                'dateSubmitted'     => new QueryParameter(),
+                'claimNo'           => new QueryParameter(),
+                'status'            => new QueryParameter(),
+                'invoiceNo'         => new QueryParameter(),
+                'payementDate'      => new QueryParameter(),
             ],
             controller: ExportListPayementController::class,
         )

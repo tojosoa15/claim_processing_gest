@@ -22,7 +22,7 @@ class PayementsRepository extends ServiceEntityRepository
     //     return $user;
     // }
 
-    public function getListPayementUser($query) {
+    public function getListPayementUser($query, $dateStart, $dateEnd) {
         $qb = $this->createQueryBuilder('p')
             ->select(
                 'p.id',
@@ -58,6 +58,13 @@ class PayementsRepository extends ServiceEntityRepository
         if (isset($query['invoiceNo'])) {
             $qb->andWhere('p.invoiceNum = :invoiceNo')
                 ->setParameter('invoiceNo', $query['invoiceNo']);
+        }
+
+        // Filtre par plage de dates : cas export
+        if ($dateStart && $dateEnd) {
+            $qb->andWhere('p.dateSubmitted BETWEEN :dateStart AND :dateEnd')
+                ->setParameter('dateStart', $dateStart)
+                ->setParameter('dateEnd', $dateEnd);
         }
 
         // Trier par date d'enregistrement

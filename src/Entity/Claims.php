@@ -18,22 +18,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="claims")
  * @ORM\Entity
  */
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => ['claim:read']],
-        ),
-        new Post(
-            denormalizationContext: ['groups' => ['claim:write']],
-            validationContext: ['groups' => ['claim:write']]
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['claim:read']]
-        ),
-        new Patch(),
-        new Delete()
-    ]
-)]
+// #[ApiResource(
+//     operations: [
+//         new GetCollection(
+//             normalizationContext: ['groups' => ['claim:read']],
+//         ),
+//         new Post(
+//             denormalizationContext: ['groups' => ['claim:write']],
+//             validationContext: ['groups' => ['claim:write']]
+//         ),
+//         new Get(
+//             normalizationContext: ['groups' => ['claim:read']]
+//         ),
+//         new Patch(),
+//         new Delete()
+//     ]
+// )]
 class Claims
 {
     /**

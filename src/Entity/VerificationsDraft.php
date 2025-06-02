@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new GetCollection(
             uriTemplate: '/surveyor_summary',
-            controller: VerificationSurveyorController::class,
+            controller: VerificationSurveyorController::class . '::getSummarySurveyor', 
             parameters: [ 'claim_number' => new QueryParameter(), 'surveyor_id' => new QueryParameter()]
         )
     ]

@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * SurveyInformations
@@ -11,6 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="survey_informations", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_verifications_id", columns={"verifications_id"})})
  * @ORM\Entity
  */
+// #[ApiResource(
+//     normalizationContext: ['groups' => ['survey_info:read']],
+//     denormalizationContext: ['groups' => ['survey_info:write']]
+// )]
 class SurveyInformations
 {
     /**
@@ -27,6 +33,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="garage", type="string", length=45, nullable=false)
      */
+    #[Groups(['verification:read', 'verification:write', 'survey_info:read', 'survey_info:write'])]
     private $garage;
 
     /**
@@ -34,6 +41,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="garage_address", type="string", length=255, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $garageAddress;
 
     /**
@@ -41,6 +49,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="garage_contact_number", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $garageContactNumber;
 
     /**
@@ -48,6 +57,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="eor_value", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $eorValue;
 
     /**
@@ -55,6 +65,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="invoice_number", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $invoiceNumber;
 
     /**
@@ -62,6 +73,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="survey_type", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $surveyType;
 
     /**
@@ -69,6 +81,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="date_of_survey", type="date", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $dateOfSurvey;
 
     /**
@@ -76,6 +89,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="time_of_survey", type="time", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $timeOfSurvey;
 
     /**
@@ -83,6 +97,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="pre_accident_value", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $preAccidentValue;
 
     /**
@@ -90,6 +105,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="showroom_price", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $showroomPrice;
 
     /**
@@ -97,6 +113,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="wreck_value", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $wreckValue;
 
     /**
@@ -104,6 +121,7 @@ class SurveyInformations
      *
      * @ORM\Column(name="excess_applicable", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $excessApplicable;
 
     /**

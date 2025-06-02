@@ -20,22 +20,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="roles", uniqueConstraints={@ORM\UniqueConstraint(name="UQ_role_name", columns={"role_name"}), @ORM\UniqueConstraint(name="UQ_role_code", columns={"role_code"})})
  * @ORM\Entity
  */
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => ['user:read']]
-        ),
-        new Post(
-            denormalizationContext: ['groups' => ['user:write']],
-            validationContext: ['groups' => ['user:write']]
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['user:read']]
-        ),
-        new Patch(),
-        new Delete()
-    ]
-)]
+// #[ApiResource(
+//     operations: [
+//         new GetCollection(
+//             normalizationContext: ['groups' => ['user:read']]
+//         ),
+//         new Post(
+//             denormalizationContext: ['groups' => ['user:write']],
+//             validationContext: ['groups' => ['user:write']]
+//         ),
+//         new Get(
+//             normalizationContext: ['groups' => ['user:read']]
+//         ),
+//         new Patch(),
+//         new Delete()
+//     ]
+// )]
 class Roles
 {
     /**

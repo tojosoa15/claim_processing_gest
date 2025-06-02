@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * EstimateOfRepairs
@@ -34,6 +35,7 @@ class EstimateOfRepairs
      *
      * @ORM\Column(name="remarks", type="text", length=16, nullable=true)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $remarks;
 
     /**
@@ -64,7 +66,24 @@ class EstimateOfRepairs
      *   @ORM\JoinColumn(name="verifications_id", referencedColumnName="id")
      * })
      */
-    private $verifications;
+    private ?Verifications $verifications;
+
+
+    /**
+     * @var VehicleInformations|null
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\VehicleInformations", mappedBy="estimateOfRepairs", cascade={"persist", "remove"})
+     */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
+    private ?VehicleInformations $vehicleInformations = null;
+
+    /**
+     * @var PartDetails
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\PartDetails", mappedBy="estimateOfRepairs", cascade={"persist", "remove"})
+     */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
+    private $partDetails;
 
     public function getId(): ?int
     {

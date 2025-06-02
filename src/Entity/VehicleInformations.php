@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * VehicleInformations
@@ -27,6 +28,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="make", type="string", length=100, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $make;
 
     /**
@@ -34,6 +36,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="model", type="string", length=100, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $model;
 
     /**
@@ -41,6 +44,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="cc", type="integer", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $cc;
 
     /**
@@ -48,6 +52,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="fuel_type", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $fuelType;
 
     /**
@@ -55,6 +60,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="transmission", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $transmission;
 
     /**
@@ -62,6 +68,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="engime_number", type="string", length=100, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $engimeNumber;
 
     /**
@@ -69,6 +76,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="chasisi_number", type="integer", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $chasisiNumber;
 
     /**
@@ -76,6 +84,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="vehicle_number", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $vehicleNumber;
 
     /**
@@ -83,6 +92,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="color", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $color;
 
     /**
@@ -90,6 +100,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="odometer_reading", type="integer", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $odometerReading;
 
     /**
@@ -97,6 +108,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="is_the_vehicle_total_loss", type="boolean", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $isTheVehicleTotalLoss = '0';
 
     /**
@@ -104,6 +116,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="place_of_survey", type="string", length=150, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $placeOfSurvey;
 
     /**
@@ -111,6 +124,7 @@ class VehicleInformations
      *
      * @ORM\Column(name="point_of_impact", type="text", length=16, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $pointOfImpact;
 
     /**
@@ -118,14 +132,14 @@ class VehicleInformations
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdAt = 'CURRENT_TIMESTAMP';
+    private $createdAt = null;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $updatedAt = 'CURRENT_TIMESTAMP';
+    private $updatedAt = null;
 
     /**
      * @var \ConditionOfVechicle
@@ -135,6 +149,7 @@ class VehicleInformations
      *   @ORM\JoinColumn(name="condition_of_vechicle_id", referencedColumnName="id")
      * })
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $conditionOfVechicle;
 
     /**
@@ -145,6 +160,7 @@ class VehicleInformations
      *   @ORM\JoinColumn(name="estimate_of_repairs_id", referencedColumnName="id")
      * })
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $estimateOfRepairs;
 
     public function getId(): ?int

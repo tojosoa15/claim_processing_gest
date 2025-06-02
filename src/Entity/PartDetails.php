@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * PartDetails
@@ -27,6 +28,7 @@ class PartDetails
      *
      * @ORM\Column(name="part_name", type="string", length=150, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $partName;
 
     /**
@@ -34,6 +36,7 @@ class PartDetails
      *
      * @ORM\Column(name="quantity", type="integer", nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $quantity;
 
     /**
@@ -41,6 +44,7 @@ class PartDetails
      *
      * @ORM\Column(name="supplier", type="string", length=255, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $supplier;
 
     /**
@@ -48,6 +52,7 @@ class PartDetails
      *
      * @ORM\Column(name="quality", type="string", length=45, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $quality;
 
     /**
@@ -55,6 +60,7 @@ class PartDetails
      *
      * @ORM\Column(name="cost_part", type="decimal", precision=10, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $costPart;
 
     /**
@@ -62,6 +68,7 @@ class PartDetails
      *
      * @ORM\Column(name="discount_part", type="decimal", precision=5, scale=2, nullable=false)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $discountPart;
 
     /**
@@ -69,6 +76,7 @@ class PartDetails
      *
      * @ORM\Column(name="part_total", type="decimal", precision=10, scale=2, nullable=true)
      */
+    #[Groups(groups: ['verification:write', 'verification:read'])]
     private $partTotal;
 
     /**
@@ -76,14 +84,14 @@ class PartDetails
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdAt = 'CURRENT_TIMESTAMP';
+    private $createdAt = null;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $updatedAt = 'CURRENT_TIMESTAMP';
+    private $updatedAt = null;
 
     /**
      * @var \Vats
